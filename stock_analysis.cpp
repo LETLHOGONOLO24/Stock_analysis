@@ -111,5 +111,48 @@ int main() {
     cout << "Total Volume: " << totalVolume << endl;
     cout << "Percent change (first -> last): " << percentChange << " %" << endl;
 
+    // STAGE 4 - Daily Returns Analysis
+
+    vector<double> dailyReturns;
+
+    // We start from index 1 because we compare today's close vs yesterday's close
+    for (size_t i = 1; i < records.size(); ++i) {
+        double prevClose = records[i - 1].close; // Previous close has to be index 0
+        double currClose = records[i].close;
+
+        // Calculate daily returns in percentage
+        double dailyReturn = ((currClose - prevClose) / prevClose) * 100.0;
+        dailyReturns.push_back(dailyReturn);
+    }
+
+    // Calculate average, min, max, and standard deviation
+    double sumReturns = 0.0;
+    double maxReturn = numeric_limits<double>::lowest();
+    double minReturn = numeric_limits<double>::max();
+
+    for (double r : dailyReturns) {
+        sumReturns += r;
+        if (r > maxReturn) maxReturn = r;
+        if (r < minReturn) minReturn = r;
+    }
+
+    double avgReturn = sumReturns / static_cast<double>(dailyReturns.size());
+
+    // Compute standard deviation (volatility)
+    double variance = 0.0;
+    for (double r : dailyReturns) {
+        variance += pow(r - avgReturn, 2);
+    }
+    variance /= static_cast<double>(dailyReturns.size());
+    double stdDev = sqrt(variance);
+
+    cout << "\n----- Daily Return Analysis -----" << endl;
+    cout << "Days analyzed: " << dailyReturns.size() << endl;
+    cout << "Average Daily Return: " << avgReturn << " %" << endl;
+    cout << "Max Daily Gain: " << maxReturn << " %" << endl;
+    cout << "Max Daily Loss: " << minReturn << " %" << endl;
+    cout << "Volatility (Std Dev): " << stdDev << " %" << endl;
+
+
     return 0;
 }

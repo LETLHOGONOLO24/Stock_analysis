@@ -7,6 +7,7 @@
 #include <iomanip>
 #include <stdexcept>
 #include <algorithm>
+#include <cmath>
 
 using namespace std;
 
@@ -152,6 +153,24 @@ int main() {
     cout << "Max Daily Gain: " << maxReturn << " %" << endl;
     cout << "Max Daily Loss: " << minReturn << " %" << endl;
     cout << "Volatility (Std Dev): " << stdDev << " %" << endl;
+
+    // ---- EXPORT CLEANED DATA ----
+
+    ofstream outFile("cleaned_data.csv");
+    outFile << "Date,Close,Volume,DailyReturn\n";
+
+    outFile << fixed << setprecision(2);
+
+    // First row has no daily return
+    outFile << records[0].date << "," << records[0].close << "," << records[0].volume << ",\n";
+
+    for (size_t i = 1; i < records.size(); ++i) {
+        outFile << records[i].date << "," << records[i].close << "," << records[i].volume
+                << "," << dailyReturns[i - 1] << "\n";
+    }
+    outFile.close();
+
+    cout << "\nExported cleaned data to cleaned_data.csv" << endl;
 
 
     return 0;

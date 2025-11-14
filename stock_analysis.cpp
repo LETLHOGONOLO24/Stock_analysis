@@ -8,6 +8,7 @@
 #include <stdexcept>
 #include <algorithm>
 #include <cmath>
+#include <format>
 
 using namespace std;
 
@@ -18,7 +19,9 @@ struct StockRecord {
 };
 
 int main() {
-    string filename = "PLTR.csv";   // change filename if needed
+    string filename;
+    cout << "Enter output filename (e.g., my_data.csv): ";
+    cin >> filename;
     ifstream file(filename);
 
     if (!file.is_open()) {
@@ -156,7 +159,11 @@ int main() {
 
     // ---- EXPORT CLEANED DATA ----
 
-    ofstream outFile("cleaned_data.csv");
+    stringstream ss_out;
+    ss_out << "cleaned_" << filename;
+    string output_filename = ss_out.str();
+
+    ofstream outFile(output_filename);
     outFile << "Date,Close,Volume,DailyReturn\n";
 
     outFile << fixed << setprecision(2);
@@ -170,7 +177,7 @@ int main() {
     }
     outFile.close();
 
-    cout << "\nExported cleaned data to cleaned_data.csv" << endl;
+    cout << "\nExported cleaned data to " << output_filename << endl;
 
 
     return 0;

@@ -1,0 +1,128 @@
+REVERSE_ENGINEERING STOCK_ANALYSIS PROGRAM
+
+1 - Include namespace and standard library headers:
+	iostream for input/output operations
+	fstream for file handling
+	
+	sstream for string streaming
+	vector for dynamic arrays
+	
+	string for string manipulation
+	limits for numeric limits
+	
+	iomanip for output formatting
+	stdexcept for exception handling
+	algorithm for algorithms like remove
+	
+2 - Define a structure called StockRecord that will group three pieces of data called
+	date as a string, close as a double, volume as long long
+3 - Inside the int main(), declare a variable called filename that will be the CSV file
+	- Ask the user to input the name of the csv file
+	
+	- Use the input function to put the name of the csv file typed by the user as filename
+
+4 - declare an ifstream object named file that will open your filename
+5 - Check if the file object is not open using the is_open function and if its not open,
+	print an error message that says couldn't open the file, prints the file name and returns 1
+	to indicate program failure
+	
+6 - Declare a string variable called line and check whether you can't GET the first line of
+	the object file and if you can't, print an error message saying the file is empty or
+	corrupt and returns 1
+	
+7 - Declare a vector that will store the StockRecord structure and call it records
+8 - loop through each and every line in the object file using the getline function
+
+	- Check whether the string line is empty and if its empty, continue reading other lines
+	- Declare a stringstream object called ss that will read the string line
+	
+	- Declare strings:
+		-Date that will be the date in the while loop
+		-closeStr that will be the closing of the price
+		
+		-volumeStr that will be the volume of the ticker in the CSV
+		-open that will be the opening of the price of the ticker in the CSV
+		
+		-high that will be the highest in price the ticker has reached
+		-low that will be the lowest in price the ticker has reached
+		
+	- Since you declared the strings, declare if statements for each string to:
+		-Check if you can't get the line using the stringstream object to check for the
+		strings using comma as a delimiter, and if it can't do that, continue
+		
+	- Declare a try for exception handling for data conversion. Inside the try:
+		-Use the erase function on the closeStr and inside the erase function, use the
+		remove function, and inside the remove function, use the begin and end functions
+		on closeStr so that the erase function can read closeStr from beginning to end to
+		remove the dollar sign in string format, then close the remove function with the
+		end function on closeStr
+		
+		-Use the erase function on the volumeStr and inside the erase function, use the
+		remove function, and inside the remove function, use the begin and end functions
+		on volumeStr so that the erase function can read volumeStr from beginning to end to
+		remove comma in string format, then close the remove function with the
+		end function on closeStr
+		
+		-Declare a double variable called closeVal and set it to a stod function, inside of
+		it being closeStr. The stod function will convert closeStr to a double closeVal
+		-Declare a long long variable called volumeVal and set it to a stoll function, inside
+		of it being volumeStr. The soll function will convert volumeStr to a long long varable
+		called volumeVal
+		
+		-Declare StockRecord object called records
+		-Set the date of the StockRecord struct to string date
+		
+		-Set the close of the StockRecord struct to closeVal
+		-Set the volume of the StockRecord struct to volumeVal
+		
+		-Use the push_back function on the records vector to push the rec object data inside
+		it
+	-Use the catch function for exception handling inside of it being or to catch a constant
+	invalid_argument object named ia and it must be a REFERENCE of it. If the catch is true:
+		
+		-Use the cerr output function to print "Warning: Skipping line with non-numeric fields: "
+		On a LINE, then end the line and continue
+	
+	-Use another catch function with a referenced const out_of_range object called oor. If the
+	catch is true:
+		-Use the cerr output function to print "Warning: Numeric value out of range in line: "
+		on a LINE, then end the line and continue
+		
+9 - Outside of the while loop, use the cout function to print "First 3 parsed rows:" and end the
+	line
+10 - Use the for loop and inside of the for loop should be:
+
+	- i must be 0, i must be less than 3 AND i must be less than the size of the records vector,
+	and increment i
+	- Use the cout function to print:
+	
+		-The date inside the records vector at i (Highligh with a string)
+		-The close inside the records vector at i (Highligh with a string)
+		
+		-The volume inside the records vector at i (Highligh with a string)
+11 - Use the close function to close the ifstream file object
+
+12 - Declare a double variable called sumClose and set it to 0.0
+13 - Declare a dobule variable called maaxClose and set it to a numeric_limits data structure
+	that is a double and ::lowest function which is the lowest number in C++
+	
+14 - Declare a double variable called minClose and set it to a numeric_limits data structure
+	 that is a double and ::max function which is the highest number in C++
+15 - Declare a long long variable called totalVolume and set it to 0
+
+16 - Declare a double variable called firstClose and set it to the front of the close in the
+	records vector using the front function
+17 - Declare a variable called lastClose and set it to the back of the close in the records vector
+	using the back function
+	
+18 - Declare a for loop to loop inside the records vector with r as your constant, auto that is
+	referenced iterator. Inside the for loop:
+	- Declare a double variable called c and set it to the close of an iteration
+	
+	- Add sumClose with c for each iteration
+	- If c is greater than maxClose, set maxClose to c
+	
+	- If c is less than minClose, set minClose to c
+	- Add totalVolume to the iterate of volume inside records for each iteration
+	
+19 - 

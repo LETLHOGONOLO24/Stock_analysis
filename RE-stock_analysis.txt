@@ -61,7 +61,7 @@ REVERSE_ENGINEERING STOCK_ANALYSIS PROGRAM
 		remove function, and inside the remove function, use the begin and end functions
 		on volumeStr so that the erase function can read volumeStr from beginning to end to
 		remove comma in string format, then close the remove function with the
-		end function on closeStr
+		end function on volumeStr
 		
 		-Declare a double variable called closeVal and set it to a stod function, inside of
 		it being closeStr. The stod function will convert closeStr to a double closeVal
@@ -69,7 +69,7 @@ REVERSE_ENGINEERING STOCK_ANALYSIS PROGRAM
 		of it being volumeStr. The soll function will convert volumeStr to a long long varable
 		called volumeVal
 		
-		-Declare StockRecord object called records
+		-Declare StockRecord object called rec
 		-Set the date of the StockRecord struct to string date
 		
 		-Set the close of the StockRecord struct to closeVal
@@ -96,26 +96,31 @@ REVERSE_ENGINEERING STOCK_ANALYSIS PROGRAM
 	and increment i
 	- Use the cout function to print:
 	
-		-The date inside the records vector at i (Highligh with a string)
-		-The close inside the records vector at i (Highligh with a string)
+		-The date inside the records vector at i
+		-The close inside the records vector at i (Highlight with a string)
 		
-		-The volume inside the records vector at i (Highligh with a string)
+		-The volume inside the records vector at i (Highlight with a string)
 11 - Use the close function to close the ifstream file object
 
-12 - Declare a double variable called sumClose and set it to 0.0
-13 - Declare a dobule variable called maaxClose and set it to a numeric_limits data structure
+12 - Declare an output function that will print "Loaded ", the size of the records vector using
+	the size function, " rows from ", string filename, and end the line
+13 - Use the if statement to check if the records vector is empty or not using the empty function.
+	If its empty, print "No data to analyze. Exiting.", end the line and return 0
+
+14 - Declare a double variable called sumClose and set it to 0.0
+15 - Declare a dobule variable called maaxClose and set it to a numeric_limits data structure
 	that is a double and ::lowest function which is the lowest number in C++
 	
-14 - Declare a double variable called minClose and set it to a numeric_limits data structure
+16 - Declare a double variable called minClose and set it to a numeric_limits data structure
 	 that is a double and ::max function which is the highest number in C++
-15 - Declare a long long variable called totalVolume and set it to 0
+17 - Declare a long long variable called totalVolume and set it to 0
 
-16 - Declare a double variable called firstClose and set it to the front of the close in the
+18 - Declare a double variable called firstClose and set it to the front of the close in the
 	records vector using the front function
-17 - Declare a variable called lastClose and set it to the back of the close in the records vector
-	using the back function
+19 - Declare a double variable called lastClose and set it to the back of the close in the records
+	vector using the back function
 	
-18 - Declare a for loop to loop inside the records vector with r as your constant, auto that is
+20 - Declare a for loop to loop inside the records vector with r as your constant, auto that is
 	referenced iterator. Inside the for loop:
 	- Declare a double variable called c and set it to the close of an iteration
 	
@@ -125,4 +130,50 @@ REVERSE_ENGINEERING STOCK_ANALYSIS PROGRAM
 	- If c is less than minClose, set minClose to c
 	- Add totalVolume to the iterate of volume inside records for each iteration
 	
-19 - 
+21 - Declare a double variable called avgClose and set it to sumClose divided by static_cast<double>
+	inside being the size of records
+22 - Declare a double variable called percentChange and set it to ((lastClose minus firstClose) divided
+	by firstClose) multiplied by 100
+	
+23 - Declare an output function, set fixed and set setprecision(2)
+24 - Declare an output function that prints "----- Stock Summary -----" and end the line
+
+25 - Declare an output function that prints "Records: ", the size of records and end the line
+26 - Declare an output function that prints "Average Close: $", double avgClose and end the line
+
+27 - Declare an output function that prints "Highest Close", double maxClose and end the line
+28 - Declare an output function that prints "Average Close: $", double avgClose and end the line
+
+29 - Declare an output function that prints "Lowest Close: $", double minClose and end the line
+30 - Declare an output function that prints "Total Volume: ", long long totalVolume and end the line
+
+31 - Declare an output function that prints "Percent change (first -> last): ", double percentChange
+	and end the line
+32 - Declare a vector that stores variables that have the data type double called dailyReturns
+
+33 - Declare a for loop, set i to 1 with a data type of size_t, set i to be less than the size of records,
+	and increment i
+34 - Inside the for loop:
+	- Declare a double variable called prevClose and set it to the close of records and an index minus 1
+	
+	- Declare a double variable called currClose and set it to the close of records at an index
+	- Declalre a double variable called dailyReturn and set it to ((currClose minus prevClose) divided by
+	prevClose) multiplied by 100.0
+	
+	- Use the push_back function on dailyReturns, pushing the dailyReturn variable
+35 - Declare a double variable called sumReturns and set it to 0.0
+
+36 - Declare a double variable called maxReturn and set it to numeric_limits<double>::lowest()
+37 - Declare a double variable called minReturn and set it to numeric_limits<double>::max()
+
+38 - Declare a for loop with double r as an index, looping through dailyReturns vector
+39 - Inside the for loop:
+
+	- Add sumReturns to r each iteration
+	- If r is greater than maxReturn, set maxReturn to range
+	
+	- If r is less than minReturn, set minReturn to range
+40 - Declare a double variable called avgReturn and set it to sumReturns divided by static_cast<double>,
+	inside being the size of dailyReturns
+	
+41 - 

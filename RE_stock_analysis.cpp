@@ -58,7 +58,14 @@ int main() {
             rec.date = date;
             rec.close = closeVar;
             rec.volume = volumeVar;
+            records.push_back(rec);
+        } catch (const invalid_argument& ia) {
+            cerr << "Warning: Skipping line with non-numeric fields " << line << endl;
+        } catch (const out_of_range& oor) {
+            cerr << "Warning: Numeric value out of range in line: " << line << endl;
         }
 
     }
+
+    
 }

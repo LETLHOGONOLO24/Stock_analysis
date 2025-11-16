@@ -52,12 +52,12 @@ int main() {
             volumeStr.erase(volumeStr.remove(volumeStr.begin(), volumeStr.end(), ',').end());
 
             double closeVal = stod(closeStr);
-            long long volumeVar = stoll(volumeStr);
+            long long volumeVal = stoll(volumeStr);
 
             StockRecord rec;
             rec.date = date;
-            rec.close = closeVar;
-            rec.volume = volumeVar;
+            rec.close = closeVal;
+            rec.volume = volumeVal;
             records.push_back(rec);
         } catch (const invalid_argument& ia) {
             cerr << "Warning: Skipping line with non-numeric fields " << line << endl;
@@ -67,5 +67,36 @@ int main() {
 
     }
 
+    cout << "First 3 parsed rows:" << endl;
+    for (int i = 0; i < 3 && i < records.size(); ++i) {
+        cout << records[i].date << "Close " << records[i].close
+            << "Volume " << records[i].volume;
+    }
+
+    file.close();
+
+    cout << "Loaded " << records.size() << " rows from " << filename << endl;
+    if (records.empty()) {
+        cout << "No data to analyze. Exiting." << endl;
+        return 0;
+    }
+
+    double sumClose = 0.0;
+    double maxClose = numeric_limits<double>::lowest();
+    double minClose = numeric_limits<double>::max();
+    long long totalVolume = 0;
+
+    double firstClose = records.front().close;
+    double lastClose = records.back().close;
+
+    for (const auto& r : records) {
+        double c = r.close;
+        sumClose += c;
+        if (c > maxClose) maxClose = c;
+        if (c < minClose) minClose = c;
+        totalVolume += r.volume;
+    }
+
     
+
 }

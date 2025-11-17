@@ -97,6 +97,77 @@ int main() {
         totalVolume += r.volume;
     }
 
-    
+    double avgClose = sumClose / static_cast<double>(records.size());
+    double percentChange = ((lastClose - firstClose) / firstClose) * 100;
+
+    cout << fixed << setprecision(2);
+    cout << "----- Stock Summary -----" << endl;
+    cout << "Records: " << records.size() << endl;
+    cout << "Average Close: $" << avgClose << endl;
+    cout << "Average Close: $" << avgClose << endl;
+    cout << "Highest Close: $" << maxClose << endl;
+    cout << "Lowest Close:  $" << minClose << endl;
+    cout << "Total Volume: " << totalVolume << endl;
+    cout << "Percent change (first -> last): " << percentChange << " %" << endl;
+
+    vector<double> dailyReturns;
+
+    for (size_t i = 1; i < records.size(); ++i) {
+        double prevClose = records[i - 1].close; 
+        double currClose = records[i].close;
+
+        double dailyReturn = ((currClose - prevClose) / prevClose) * 100.0;
+        dailyReturns.push_back(dailyReturn);
+    }
+
+    double sumReturns = 0.0;
+    double maxReturn = numeric_limits<double>::lowest();
+    double minReturn = numeric_limits<double>::max();
+
+    for (double r : dailyReturns) {
+        sumReturns += r;
+        if (r > maxReturn) maxReturn = r;
+        if (r < minReturn) minReturn = r;
+    }
+
+    double avgReturn = sumReturns / static_cast<double>(dailyReturns.size());
+
+    double variance = 0.0;
+    for (double r : dailyReturns) {
+        variance += pow(r - avgReturn, 2);
+    }
+    variance /= static_cast<double>(dailyReturns.size());
+    double stdDev = sqrt(variance);
+
+    cout << "\n----- Daily Return Analysis -----" << endl;
+    cout << "Days analyzed: " << dailyReturns.size() << endl;
+    cout << "Average Daily Return: " << avgReturn << " %" << endl;
+    cout << "Max Daily Gain: " << maxReturn << " %" << endl;
+    cout << "Max Daily Loss: " << minReturn << " %" << endl;
+    cout << "Volatility (Std Dev): " << stdDev << " %" << endl;
+
+    // ---- EXPORT CLEANED DATA ----
+
+    stringstream ss_out;
+    ss_out << "cleaned_" << filename;
+    string output_filename = ss_out.str();
+
+    ofstream outFile(output_filename);
+    outFile << "Date,Close,Volume,DailyReturn\n";
+
+    outFile << fixed << setprecision(2);
+
+    // First row has no daily return
+    outFile << records[0].date << "," << records[0].close << "," << records[0].volume << ",\n";
+
+    for (size_t i = 1; i < records.size(); ++i) {
+        outFile << records[i].date << "," << records[i].close << "," << records[i].volume
+                << "," << dailyReturns[i - 1] << "\n";
+    }
+    outFile.close();
+
+    cout << "\nExported cleaned data to " << output_filename << endl;
+
+    return 0; 
 
 }
